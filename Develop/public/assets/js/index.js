@@ -11,7 +11,7 @@ if (window.location.pathname === '/notes') {
   newNoteBtn = document.querySelector('.new-note');
   noteList = document.querySelectorAll('.list-container .list-group');
 }
-
+console.log(noteTitle, noteText, saveNoteBtn, newNoteBtn, noteList);
 // Show an element
 const show = (elem) => {
   elem.style.display = 'inline';
@@ -23,7 +23,8 @@ const hide = (elem) => {
 };
 
 // activeNote is used to keep track of the note in the textarea
-let activeNote = {};
+let activeNote = {noteText};
+console.log(activeNote);
 
 const getNotes = () =>
   fetch('/api/notes', {
@@ -119,7 +120,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  if (window.location.pathname === '/notes') {
+  if (window.location.pathname === '../../notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
