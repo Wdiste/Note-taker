@@ -26,15 +26,15 @@ const hide = (elem) => {
 let activeNote = {noteText};
 console.log(activeNote);
 
-const getNotes = () =>{
-  const result = fetch('/api/notes', {
+const getNotes = async () =>{
+  const response = await fetch('/api/notes', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },});
-    const notes = result.JSON;
-    return notes;
+    return response;
   };
+
     
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -174,9 +174,9 @@ const renderNoteList = async (notes) => {
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then(renderNoteList);
+const getAndRenderNotes = () => getNotes().then((response) => renderNoteList(response));
 
-if (window.location.pathname === '/notes') {
+if (window.location.pathname === '/notes.html') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
