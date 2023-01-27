@@ -1,5 +1,3 @@
-
-
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -26,7 +24,7 @@ const hide = (elem) => {
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-console.log(activeNote);
+console.log('activeNote: ', activeNote);
 
 const getNotes = async () =>{
   const response = await fetch('/api/notes', {
@@ -34,9 +32,9 @@ const getNotes = async () =>{
     headers: {
       'Content-Type': 'application/json',
     },});
-    const notes = await response.json();
-    console.log('response: ', notes)
-    return notes;
+    const allNotes = await response.json();
+    console.log('notes: ', allNotes);
+    return await allNotes;
   };
 
     
@@ -125,9 +123,9 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = await notes;
-  console.timeLog('jsonNotes = ', jsonNotes)
-  if (window.location.pathname === '../../notes') {
+  let allNotes = await notes;
+  console.log('notes = ', await allNotes);
+  if (window.location.pathname === '../../notes.html') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
@@ -162,24 +160,29 @@ const renderNoteList = async (notes) => {
     return liEl;
   };
 
-  if (jsonNotes.length === 0) {
+  if (allNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
   }
 
-  jsonNotes.forEach((note) => {
+  allNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
 
     noteListItems.push(li);
   });
 
-  if (window.location.pathname === '/notes') {
+  if (window.location.pathname === '/notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then((response) => renderNoteList(response));
+const getAndRenderNotes = async () => {
+  console.log('running get and render func');
+  let notes = await getNotes();
+  console.log(notes);
+  renderNoteList(notes);
+};
 
 if (window.location.pathname === '/notes.html') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
