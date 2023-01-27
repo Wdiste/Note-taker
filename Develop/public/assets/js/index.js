@@ -11,7 +11,6 @@ if (window.location.pathname === '/notes.html') {
   newNoteBtn = document.querySelector('.new-note');
   noteList = document.querySelectorAll('.list-container .list-group');
 }
-console.log(noteTitle, noteText, saveNoteBtn, newNoteBtn, noteList);
 // Show an element
 const show = (elem) => {
   elem.style.display = 'inline';
@@ -24,7 +23,6 @@ const hide = (elem) => {
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-console.log('activeNote: ', activeNote);
 
 const getNotes = async () =>{
   const response = await fetch('/api/notes', {
@@ -33,7 +31,6 @@ const getNotes = async () =>{
       'Content-Type': 'application/json',
     },});
     const allNotes = await response.json();
-    console.log('notes: ', allNotes);
     return await allNotes;
   };
 
@@ -49,7 +46,6 @@ const saveNote = async (note) =>
   })
   .then((res) => res.json())
   .then((data) => {
-    console.log('Added new note:', data);
     return data;
   })
   .catch((error) => {
@@ -57,13 +53,22 @@ const saveNote = async (note) =>
   });
   
 
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+  // delete a note when trash icon is clicked
+  // will pull the json file and remove the data
+const deleteNote = async (id) =>
+  await fetch(`/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })  
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.error('Error: could not delete note', error);
+    });
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
@@ -134,7 +139,6 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let allNotes = await notes;
-  console.log('pathname to notes:', window.location.pathname);
   if (window.location.pathname === '/notes.html') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -188,9 +192,7 @@ const renderNoteList = async (notes) => {
 
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = async () => {
-  console.log('running get and render func');
   let notes = await getNotes();
-  console.log(notes);
   renderNoteList(notes);
 };
 
