@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/api/notes', (req, res) => res.json(noteData));
+app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, '/db/notes.json')));
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);

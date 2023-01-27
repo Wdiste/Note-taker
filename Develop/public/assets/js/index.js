@@ -1,3 +1,5 @@
+
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -32,7 +34,9 @@ const getNotes = async () =>{
     headers: {
       'Content-Type': 'application/json',
     },});
-    return response;
+    const notes = await response.json();
+    console.log('response: ', notes)
+    return notes;
   };
 
     
@@ -122,6 +126,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+  console.timeLog('jsonNotes = ', jsonNotes)
   if (window.location.pathname === '../../notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
