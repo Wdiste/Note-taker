@@ -1,1 +1,1 @@
-web: node Develop/public/server.js
+web: node server.js
