@@ -125,7 +125,7 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
+  let jsonNotes = await notes;
   console.timeLog('jsonNotes = ', jsonNotes)
   if (window.location.pathname === '../../notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
