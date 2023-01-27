@@ -38,15 +38,24 @@ const getNotes = async () =>{
   };
 
     
-const saveNote = (note) =>
-  fetch('/api/notes', {
+const saveNote = async (note) =>
+  await fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    // code sent to post request, will be from input forms
     body: JSON.stringify(note),
   })
-  .then((result) => console.log('result: ', JSON.parse(result)));
+  .then((res) => res.json())
+  .then((data) => {
+    console.log('Added new note:', data);
+    return data;
+  })
+  .catch((error) => {
+    console.error('Error: could not add note', error);
+  });
+  
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -125,8 +134,8 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let allNotes = await notes;
-  console.log('notes = ', await allNotes);
-  if (window.location.pathname === '../../notes.html') {
+  console.log('pathname to notes:', window.location.pathname);
+  if (window.location.pathname === '/notes.html') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
