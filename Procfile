@@ -1,1 +1,1 @@
-web: node 11-Note-Taker/Develop/server.js
+web: node ./Develop/server.js
