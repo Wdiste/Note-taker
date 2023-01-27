@@ -45,7 +45,8 @@ const saveNote = (note) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-  });
+  })
+  .then((result) => console.log('result: ', JSON.parse(result)));
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
