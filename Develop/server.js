@@ -16,7 +16,7 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.htm
 app.all('*', (req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
 
 // route to use getNotes()
-app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, '/db/notes.json')));
+app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, './db/notes.json')));
 
 // route to use saveNote()
 app.post('/api/notes', (req, res) => {
@@ -29,7 +29,7 @@ app.post('/api/notes', (req, res) => {
     };
 
       // read the existing notes.json file
-      fs.readFile(path.join(__dirname, '/db/notes.json'), 'utf8', (err, data) => {
+      fs.readFile(path.join(__dirname, '//db/notes.json'), 'utf8', (err, data) => {
         if (err) {
             res.status(500).json('Error: cannot connect to notes.json');
         }
@@ -39,7 +39,7 @@ app.post('/api/notes', (req, res) => {
           notes.push(newNote);
 
             // write the new array over the old array in notes db
-          fs.writeFile(path.join(__dirname, '/db/notes.json'), JSON.stringify(notes), (err) => {
+          fs.writeFile(path.join(__dirname, './db/notes.json'), JSON.stringify(notes), (err) => {
             if (err) {
                 res.status(500).json('Error: cannot write to notes.json file');
             }
@@ -58,7 +58,7 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
       // read the existing notes.json file
-      fs.readFile(path.join(__dirname, '/db/notes.json'), 'utf8', (err, data) => {
+      fs.readFile(path.join(__dirname, './db/notes.json'), 'utf8', (err, data) => {
         if (err) {
             res.status(500).json('Error: cannot read notes.json file');
         }
